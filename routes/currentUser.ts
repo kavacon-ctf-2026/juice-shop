@@ -26,7 +26,9 @@ export function retrieveLoggedInUser () {
 
         if (requestedFields.length > 0) {
           // When fields are specified, return only those fields
+          const sensitiveFields = new Set(['password', 'totpSecret', 'deluxeToken'])
           for (const field of requestedFields) {
+            if (sensitiveFields.has(field)) continue
             if (user?.data[field as keyof typeof user.data] !== undefined) {
               baseUser[field] = user?.data[field as keyof typeof user.data]
             }
